@@ -16,7 +16,7 @@ V pripade, ze chcete aby Vas prihlasilo hned po otvoreni, zafajknite checkbox ve
 
 V pripade, ze chcete program spustat po spusteni operacneho systemu, pridajte ho, alebo jeho odkaz do priecinku Po spusteni(Ponuka start > Vsetky programy > Pri spusteni)
 
-Aplikacia potrebuje JRE7, stiahnutelne na adrese http://www.java.com/download/
+Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
 Co nefunguje: 
 Neimplementovane korektne odhlasenie z Faro siete
