@@ -11,9 +11,10 @@ Funguje pod Windows, Linux.
 Neotestovane pod Mac.
 
 Navod:
-Spustit program.
+Spustit program. 
 Zadat udaje k prihlaseniu(potvrdit save).
 Kliknut Log in.
+Vzhladom k tomu, ze sa spusta aj v liste pri hodinach, mozete okno s prihlasenim zavriet a otvorit si ho ked bude treba.
 V pripade, ze chcete aby Vas prihlasilo hned po otvoreni, zafajknite checkbox vedla Log in.  
 V pripade, ze chcete program spustat po spusteni operacneho systemu, pridajte ho, alebo jeho odkaz do priecinku Po spusteni(Ponuka start > Vsetky programy > Pri spusteni)
 
@@ -24,4 +25,4 @@ Neimplementovane korektne odhlasenie z Faro siete.
 Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory pravdepodobne ani nezaznamenate
 
 Upozornenie:
-Za skody sposobene tymto programom nenesiem ziadnu zodpovednost.
+Za skody sposobene tymto programom nenesiem ziadnu zodpovednost.  Program uklada meno a heslo v kodovanie Base64 v pocitaci(v pripade, ze mate ulozene heslo v prehliadaci, tak je to asi jedno).
