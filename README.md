@@ -17,6 +17,7 @@ Kliknut Log in.
 Vzhladom k tomu, ze sa spusta aj v liste pri hodinach, mozete okno s prihlasenim zavriet a otvorit si ho ked bude treba.
 V pripade, ze chcete aby Vas prihlasilo hned po otvoreni, zafajknite checkbox vedla Log in.  
 V pripade, ze chcete program spustat po spusteni operacneho systemu, pridajte ho, alebo jeho odkaz do priecinku Po spusteni(Ponuka start > Vsetky programy > Pri spusteni)
+Pri pouzivani inej siete ako Faro(napriklad doma,v skole), program nie je nutne vypnut ani odhlasit.
 
 Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
