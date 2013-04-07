@@ -5,7 +5,7 @@ Tool for authentication to the Mendel University Faro network
 
 Download: http://goo.gl/HVmHG
 
-Uz vas nebavi neustale prihlasovanie do Faro siete? Mam pre vas riesenie :-)
+Uz vas nebavi neustale prihlasovanie do Faro siete a otvorene "popup" okna v prehliadaci? Mam pre vas riesenie :-)
 
 Funguje pod Windows, Linux.
 Neotestovane pod Mac.
