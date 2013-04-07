@@ -3,7 +3,7 @@ FaroAuth
 
 Tool for authorize to the Mendel University Faro network
 
-Download: https://github.com/kubco2/FaroAuth/blob/master/out/artifacts/FaroAuth_jar/FaroAuth.jar?raw=true
+Download: http://goo.gl/HVmHG
 
 Uz vas nebavi neustale prihlasovanie do Faro siete? Mam pre vas riesenie :-)
 
