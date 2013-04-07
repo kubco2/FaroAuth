@@ -1,7 +1,7 @@
 FaroAuth
 ========
 
-Tool for authorize to the Mendel University Faro network
+Tool for authentication to the Mendel University Faro network
 
 Download: http://goo.gl/HVmHG
 
@@ -26,4 +26,4 @@ Neimplementovane korektne odhlasenie z Faro siete.
 Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory pravdepodobne ani nezaznamenate
 
 Upozornenie:
-Za skody sposobene tymto programom nenesiem ziadnu zodpovednost.  Program uklada meno a heslo v kodovanie Base64 v pocitaci(v pripade, ze mate ulozene heslo v prehliadaci, tak je to asi jedno).
+Za skody sposobene tymto programom nenesiem ziadnu zodpovednost.  Program uklada meno a heslo v kodovani Base64 v pocitaci(v pripade, ze mate ulozene heslo v prehliadaci, tak je to porovnatelne nebezpecne).
