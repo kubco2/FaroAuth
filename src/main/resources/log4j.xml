@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+    <!-- appender určuje, kam se bude logovat, v tomto případě na konzolu -->
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+    <!-- tento appender loguje do denně rotovaného souboru  v adresáři určeném obsahem systémové property catalina.base-->
+    <appender name="roll" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="log.log"/>
+        <param name="DatePattern" value=".yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+    <!-- category určuje úroveň logování pro třídy v určitém package -->
+    <category name="org.apache.log4j.xml">
+        <priority value="error"/>
+    </category>
+    <category name="net.sourceforge.stripes">
+        <priority value="error"/>
+    </category>
+    <category name="sk.shifty">
+        <priority value="debug"/>
+    </category>
+
+    <!-- root definuej hlavní konfiguraci, tedy které z appenderů se mají použít -->
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</log4j:configuration>
