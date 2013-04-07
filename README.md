@@ -21,7 +21,7 @@ V pripade, ze chcete program spustat po spusteni operacneho systemu, pridajte ho
 Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
 Co nefunguje: 
-Neimplementovane korektne odhlasenie z Faro siete
+Neimplementovane korektne odhlasenie z Faro siete\n
 Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory pravdepodobne ani nezaznamenate
 
 Upozornenie:
