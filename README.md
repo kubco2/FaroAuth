@@ -22,7 +22,7 @@ Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
 Co nefunguje: 
 Neimplementovane korektne odhlasenie z Faro siete
-Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory ale nemusite ani zaznamenat
+Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory pravdepodobne ani nezaznamenate
 
 Upozornenie:
 Za skody sposobene tymto programom nenesiem ziadnu zodpovednost.
