@@ -21,8 +21,7 @@ Pri pouzivani inej siete ako Faro(napriklad doma,v skole), program nie je nutne 
 
 Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
-Co nefunguje:  
-Neimplementovane korektne odhlasenie z Faro siete.  
+Co nefunguje:
 Neimplementovane obnovovanie prihlasenia > Po vyprsani limitu prihlasenia(cca 1.5h) moze dojst ku kratkodobemu vypadku, ktory pravdepodobne ani nezaznamenate
 
 Upozornenie:
