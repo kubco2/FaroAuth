@@ -9,8 +9,6 @@ import javax.swing.*;
  */
 public class main {
 
-
-
     private static boolean enableGUI=true;
     private static String username;
     private static String password;
@@ -40,7 +38,7 @@ public class main {
             }
         }
 
-        faroAuth = new FaroAuth("superpc.sk",auth);
+        faroAuth = new FaroAuth("www.cesnet.cz",auth);
         if(enableGUI) {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override

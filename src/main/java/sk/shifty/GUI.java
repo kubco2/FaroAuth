@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Map;
 import java.util.prefs.Preferences;
 
 /**
@@ -14,7 +16,7 @@ import java.util.prefs.Preferences;
  * Date: 15/05/12
  * Time: 12:41
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ControlableGUI {
 
     Preferences prefs =  Preferences.userNodeForPackage(Preferences.class);
 
@@ -24,8 +26,7 @@ public class GUI extends JFrame {
     public GUI(FaroAuth fa,Auth a) {
         faroAuth=fa;
         auth=a;
-        attachCallBack();
-        attachOnlineSetter();
+        faroAuth.setGui(this);
         setTitle("FaroAuth");
         setLayout(new GridLayout(0,1));
         init();
@@ -41,12 +42,16 @@ public class GUI extends JFrame {
     }
 
     public void start() {
-        activate.setText("Log out");
+        setActivateButton(true);
         faroAuth.start();
     }
     public void stop() {
-        activate.setText("Log in");
+        setActivateButton(false);
         faroAuth.stop();
+    }
+
+    public void setActivateButton(boolean start) {
+        activate.setText(start?"Log out":"Log in");
     }
 
     JButton activate;
@@ -69,7 +74,7 @@ public class GUI extends JFrame {
         passField.setPreferredSize(new Dimension(100,25));
         save = new JButton("Save");
         save.addActionListener(saveCreds);
-        free = new JLabel(".............................");
+        free = new JLabel("..................................................");
 
         JPanel panelActivation = new JPanel(new FlowLayout());
         panelActivation.add(activate);
@@ -80,6 +85,25 @@ public class GUI extends JFrame {
         panelCreds.add(save);
         JPanel panelInfo = new JPanel(new FlowLayout());
         panelInfo.add(free);
+
+        try {
+            final URI uri = new URI("https://github.com/kubco2/FaroAuth/issues");
+            JButton link = new JButton();
+            link.setText("V pripade problemov nevahajte napisat");
+            link.setToolTipText(uri.toString());
+            link.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    open(uri);
+                }
+            });
+            JPanel panelWeb = new JPanel(new FlowLayout());
+            panelWeb.add(link);
+            add(panelWeb);
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         add(panelActivation);
         add(panelCreds);
@@ -95,7 +119,7 @@ public class GUI extends JFrame {
     ActionListener runAuth = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(faroAuth.isRunning()) {
+            if(faroAuth.isAlive()) {
                 stop();
             } else {
                 start();
@@ -151,31 +175,34 @@ public class GUI extends JFrame {
         return (new ImageIcon(path, description)).getImage();
     }
 
-    private void attachCallBack() {
-        faroAuth.setCallBack(new CallBack() {
-            Map<String,Object> map;
-            @Override
-            public void setProperties(Map<String,Object> map) {
-                this.map=map;
-            }
-            @Override
-            public void execute() {
-                JOptionPane.showMessageDialog(GUI.this,map.get("msg"),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+    private boolean online=false;
+    @Override
+    public void setStatus(boolean online) {
+        this.online=online;
+        updateBar();
     }
-    private void attachOnlineSetter() {
-        faroAuth.setOnlineSetter(new CallBack() {
-            Map<String,Object> map;
-            @Override
-            public void setProperties(Map<String, Object> map) {
-                this.map=map;
-            }
-            @Override
-            public void execute() {
-                free.setText("status: "+((boolean)map.get("online")?"online":"offline")+" - free data: "+map.get("limit")+" GB");
-            }
-        });
+    private Double freeLimit;
+    @Override
+    public void setFreeLimit(Double free) {
+        this.freeLimit=free;
+        updateBar();
+    }
+
+    private void updateBar() {
+        free.setText("status: "+(online?"online":"offline")+" - free data: "+freeLimit+" GB");
+    }
+
+    @Override
+    public void showNotAuthentizedError() {
+        JOptionPane.showMessageDialog(this,"can't authenticate user",
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void open(URI uri) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(uri);
+            } catch (IOException e) { /* TODO: error handling */ }
+        } else { /* TODO: error handling */ }
     }
 }

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 
 /**
  * User: shifty
@@ -16,17 +15,17 @@ public class FaroAuth implements Runnable {
 
     final static Logger log = LoggerFactory.getLogger(FaroAuth.class);
 
+    private ControlableGUI gui;
+
     private PingService host;
     private Login login;
     private Thread loginT;
     private SyncLimit syncLimit;
 
     private boolean running;
-    private int timeout=10;
-    private int syncTimeout=60;
-
-    private CallBack callBack;
-    private CallBack onlineSetter;
+    private int timeout=10;     // seconds
+    private int syncTimeout=60; // seconds
+    private int renewTimeout=1; // number of cycles of main process
 
     public FaroAuth(String url, Auth auth) {
         this.host = new PingService(url);
@@ -36,7 +35,6 @@ public class FaroAuth implements Runnable {
     }
 
     public void start() {
-        log.info("starting");
         if(loginT == null || !loginT.isAlive()) {
             running=true;
             loginT = new Thread(this);
@@ -48,72 +46,74 @@ public class FaroAuth implements Runnable {
 
     }
     public void stop() {
-        log.info("stopping");
         running=false;
-        syncLimit.stop();
         loginT.interrupt();
+        syncLimit.stop();
+        login.logout();
+        if(gui!=null) {
+            gui.setActivateButton(false);
+        }
     }
 
     @Override
     public void run() {
+        log.info("starting");
+        int cycle=0;
         while (running) {
+            cycle++;
             if(host.isReachable()) {
                 setOnline(true);
+                if(cycle % renewTimeout == 0) {
+                    //login.renew();
+                }
             } else {
                 setOnline(false);
                 try {
                     login.connect();
                 } catch (AuthorizationException e) {
                     log.error("can't authenticate user",e);
-                    executeCallBack("can't authenticate user");
+                    if(gui!=null) {
+                        syncLimit.stop();
+                        gui.showNotAuthentizedError();
+                    }
                     break;
                 } catch (IOException e) {
                     log.error("can't load site", e);
-                    break;
                 }
                 setOnline(host.isReachable());
             }
             try {
                 Thread.sleep(timeout * 1000);
             } catch (InterruptedException e) {
-                log.debug("interrupting service.", e);
+                log.debug("interrupting FaroAuth.");
             }
         }
+        log.info("stopping");
         stop();
     }
 
-
-
-    public boolean isRunning() {
-        return this.running;
-    }
-
-    public void setCallBack(CallBack callBack) {
-        this.callBack = callBack;
-    }
-
-    private void executeCallBack(String str) {
-        if(callBack!=null) {
-            HashMap<String,Object> map = new HashMap<>();
-            map.put("msg",str);
-            callBack.setProperties(map);
-            callBack.execute();
-        }
-    }
-
-    public void setOnlineSetter(CallBack onlineSetter) {
-        this.onlineSetter = onlineSetter;
+    public boolean isAlive() {
+        return loginT != null && loginT.isAlive();
     }
 
     public void setOnline(boolean online) {
         log.info("online: "+online);
-        if(onlineSetter != null) {
-            HashMap<String,Object> map = new HashMap<>();
-            map.put("limit",syncLimit.getLimit());
-            map.put("online",online);
-            onlineSetter.setProperties(map);
-            onlineSetter.execute();
+        if(gui != null) {
+            gui.setStatus(online);
         }
+    }
+    public void setFreeLimit() {
+        log.info(syncLimit.getLimit() + " free");
+        if(gui != null) {
+            gui.setFreeLimit(syncLimit.getLimit());
+        }
+    }
+
+    public void setGui(ControlableGUI gui) {
+        if(gui == null) {
+            throw new IllegalArgumentException("gui cannot be null");
+        }
+        this.gui = gui;
     }
 
     class SyncLimit implements Runnable {
@@ -155,17 +155,16 @@ public class FaroAuth implements Runnable {
                             break;
                         }
                     }
-                    log.info(limit + " free");
                 } catch (IOException e) {
                     log.error("can't load site", e);
                 }
+                setFreeLimit();
                 try{
                     Thread.sleep(syncTimeout*1000);
                 } catch (InterruptedException e) {
-                    log.debug("interrupting sync.", e);
+                    log.debug("interrupting sync.");
                 }
             }
-            stop();
             log.info("stopping");
         }
 

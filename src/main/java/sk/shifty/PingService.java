@@ -18,7 +18,8 @@ public class PingService {
     private int MAC=2;
     private int OS;
 
-    private String url="google.com";
+    private String url="4.2.2.2";
+    private int deadline =1; //seconds
 
     public PingService() {
         String os = System.getProperty("os.name");
@@ -31,6 +32,10 @@ public class PingService {
         } else {
             throw new IllegalStateException("OS is not recognized");
         }
+    }
+    public PingService(int deadline) {
+        this();
+        this.deadline = deadline;
     }
 
     public PingService(String url) {
@@ -60,17 +65,24 @@ public class PingService {
     }
 
     private boolean pingLinux() throws Exception {
-        Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 -s 1 "+url);
+        Process p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 -s 1 -w "+ deadline +" "+url);
         int returnVal = p1.waitFor();
         log.debug("ping return {}",returnVal);
         return (returnVal==0);
     }
 
     private boolean pingWindows() throws Exception {
-        Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 -l 1 "+url);
+        Process p1 = java.lang.Runtime.getRuntime().exec("ping -n 1 -l 1 -w "+(deadline *1000)+" "+url);
         int returnVal = p1.waitFor();
         log.debug("ping return {}",returnVal);
         return (returnVal==0);
     }
 
+    public int getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(int deadline) {
+        this.deadline = deadline;
+    }
 }

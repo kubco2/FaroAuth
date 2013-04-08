@@ -19,16 +19,13 @@
     <category name="org.apache.log4j.xml">
         <priority value="error"/>
     </category>
-    <category name="net.sourceforge.stripes">
-        <priority value="error"/>
-    </category>
     <category name="sk.shifty">
-        <priority value="debug"/>
+        <priority value="info"/>
     </category>
 
     <!-- root definuej hlavní konfiguraci, tedy které z appenderů se mají použít -->
     <root>
-        <priority value="debug"/>
+        <priority value="info"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </log4j:configuration>

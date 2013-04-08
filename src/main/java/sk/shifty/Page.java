@@ -79,7 +79,6 @@ public class Page {
     }
 
     public String findUrl(String keyword) {
-        //Pattern p = Pattern.compile("/.*"+keyword+"[^\"]*");
         Pattern p = Pattern.compile("[&?/%\\-=.:a-zA-z0-9]*"+keyword+"[&?/%=a-zA-z0-9]*");
         Matcher m = p.matcher(page);
         key=m.find();

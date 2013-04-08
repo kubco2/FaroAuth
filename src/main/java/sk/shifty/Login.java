@@ -3,9 +3,7 @@ package sk.shifty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,15 +14,13 @@ public class Login  {
     private String checkAddress;
     private Auth auth;
 
-    //renew
-    private Timeout renewTimeout = new Timeout(3);    //TODO
     private String authPopupAddress;
     private String mac;
     private String token;
     private String gateway;
     private String timeout;
 
-    //TODO on error callback
+    public static long lastrun=0;
 
     public Login(String checkUrl, Auth auth) {
         checkAddress =checkUrl;
@@ -42,6 +38,7 @@ public class Login  {
         if(faro) {
             log.info("must authenticate");
             try {
+                lastrun=0;
                 authenticate(page.findUrl("login"));
             } catch (IOException e) {
                 throw new AuthorizationException("can't authenticate user",e);
@@ -53,24 +50,30 @@ public class Login  {
      * Renew FARO session
      */
     public void renew(){
-        log.debug("renew=> start with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
-        if(renewTimeout.exec()) {
-            log.debug("renew=> timeout passed, method continue");
-            try {
-                Page authPopupPage = new Page(authPopupAddress).withAuth(auth);
-                if(token!=null) {
-                    authPopupPage.withPost(
-                            "mode=renew", "user=" + auth.getUsername(), "pass", "mac=" + mac,
-                            "token=" + token, "gateway=" + gateway, "timeout=3000"
-                    );
-                }
-                authPopupPage.connect().load();
-                getParamsForPost(authPopupPage.toString());
-            } catch(Exception e) {
-                log.error("renew=> exception thrown",e);
-            }
+        if(authPopupAddress == null) {
+            log.debug("renew denied, because no authPopupAddress available");
+            return;
         }
-        log.debug("renew=> end with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
+        if(timeout != null && lastrun+(Long.valueOf(timeout)*1000) > System.currentTimeMillis()) {
+            log.debug("renew denied, because of timeout need: {} , now: {}",timeout,Long.valueOf(timeout)-(lastrun+(Long.valueOf(timeout)*1000)-System.currentTimeMillis())/1000);
+            return;
+        }
+        lastrun=System.currentTimeMillis();
+        log.debug("renew start with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
+        try {
+            Page authPopupPage = new Page(authPopupAddress).withAuth(auth);
+            if(token!=null) {
+                authPopupPage.withPost(
+                        "mode=renew", "user=" + auth.getUsername(), "pass", "mac=" + mac,
+                        "token=" + token, "gateway=" + gateway, "timeout=" + timeout
+                );
+            }
+            authPopupPage.connect().load();
+            getParamsForPost(authPopupPage.toString());
+        } catch(Exception e) {
+            log.error("cant reauthentizate",e);
+        }
+        log.debug("renew end with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
     }
 
     public void getParamsForPost(String source) {
@@ -96,7 +99,7 @@ public class Login  {
 
     }
 
-    private boolean authenticate(String url) throws IOException {
+    private void authenticate(String url) throws IOException {
         Page pageLogin = new Page(url).connect().load();
         url = pageLogin.findUrl("authlogin");
         url = Constants.alephHost +url;
@@ -105,22 +108,27 @@ public class Login  {
         url = url.split("=",2)[1];
         authPopupAddress = pageAuthen.findUrl("authlogin");
         new Page(url).withAuth(auth).connect().load();
-           //TODO
-        return true;
+        log.info("logged in");
+
+        renew();
     }
 
     /**
      * log out from FARO
      */
-    private void logout() {
-        log.debug("logout=> try to log out");
+    public void logout() {
+        if(gateway == null) {
+            log.info("cant logout, because no gateway available");
+            return;
+        }
+        log.debug("log out");
         try {
-            Page logoutPage = new Page("http://"+gateway+"/logout").withAuth(auth);
+            Page logoutPage = new Page(gateway+"/logout");
             logoutPage.connect().load();
         } catch (IOException e) {
-            log.error("logout=> exception thrown while logging out",e);
+            log.error("exception thrown while logging out",e);
         }
-        log.info("logout=> logged out");
+        log.info("logged out");
     }
 
     private boolean isFaroPage(Page page) {
