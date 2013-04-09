@@ -54,7 +54,7 @@ public class Page {
 
         conn = (HttpURLConnection) url.openConnection();
         conn.setInstanceFollowRedirects(true);
-        conn.setRequestProperty ("User-agent", "Shifty-Authenticator");
+        conn.setRequestProperty ("User-agent", "FaroAuth");
         if(basicAuth != null) {
             conn.setRequestProperty("Authorization",basicAuth.get());
         }
