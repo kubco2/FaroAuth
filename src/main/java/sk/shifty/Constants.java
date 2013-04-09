@@ -8,8 +8,8 @@ package sk.shifty;
  * To change this template use File | Settings | File Templates.
  */
 public class Constants {
-    public static String alephLogin = "https://aleph.mendelu.cz/cgi-bin/login?";
-    public static String alephRedirect = "https://aleph.mendelu.cz/cgi-bin/auth/authlogin?";
-    public static String alephHost = "https://aleph.mendelu.cz";
-    public static String alephStand = "";
+    public static final String alephLogin = "https://aleph.mendelu.cz/cgi-bin/login?";
+    public static final String alephRedirect = "https://aleph.mendelu.cz/cgi-bin/auth/authlogin?";
+    public static final String alephHost = "https://aleph.mendelu.cz";
+    public static final String alephLimit = "https://is.mendelu.cz/auth/wifi/statistika_vpm.pl";
 }

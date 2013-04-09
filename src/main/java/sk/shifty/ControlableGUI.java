@@ -1,6 +1,8 @@
 package sk.shifty;
 
 
+import java.math.BigDecimal;
+
 /**
  * User: shifty
  * Date: 4/7/13
@@ -9,7 +11,7 @@ package sk.shifty;
 public interface ControlableGUI {
 
     public void setStatus(boolean isOnline);
-    public void setFreeLimit(Double free);
+    public void setFreeLimit(BigDecimal free);
     public void showNotAuthentizedError();
     public void setActivateButton(boolean start);
 

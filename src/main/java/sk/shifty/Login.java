@@ -4,12 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Login  {
 
     final static Logger log = LoggerFactory.getLogger(Login.class);
+
 
     private String checkAddress;
     private Auth auth;
@@ -20,7 +23,8 @@ public class Login  {
     private String gateway;
     private String timeout;
 
-    public static long lastrun=0;
+    public static long lastRun =0;
+    private Timer refreshTimer=new Timer();
 
     public Login(String checkUrl, Auth auth) {
         checkAddress =checkUrl;
@@ -38,7 +42,7 @@ public class Login  {
         if(faro) {
             log.info("must authenticate");
             try {
-                lastrun=0;
+                lastRun =0;
                 authenticate(page.findUrl("login"));
             } catch (IOException e) {
                 throw new AuthorizationException("can't authenticate user",e);
@@ -54,26 +58,44 @@ public class Login  {
             log.debug("renew denied, because no authPopupAddress available");
             return;
         }
-        if(timeout != null && lastrun+(Long.valueOf(timeout)*1000) > System.currentTimeMillis()) {
-            log.debug("renew denied, because of timeout need: {} , now: {}",timeout,Long.valueOf(timeout)-(lastrun+(Long.valueOf(timeout)*1000)-System.currentTimeMillis())/1000);
+        if(timeout != null && lastRun +(Long.valueOf(timeout)*1000) >= System.currentTimeMillis()) {
+            log.debug("renew denied, because of timeout need: {} , now: {}",timeout,Long.valueOf(timeout)-(lastRun +(Long.valueOf(timeout)*1000)-System.currentTimeMillis())/1000);
             return;
         }
-        lastrun=System.currentTimeMillis();
         log.debug("renew start with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
         try {
-            Page authPopupPage = new Page(authPopupAddress).withAuth(auth);
-            if(token!=null) {
+            final Page authPopupPage = new Page(authPopupAddress).withAuth(auth);
+            if(lastRun>0) {
                 authPopupPage.withPost(
                         "mode=renew", "user=" + auth.getUsername(), "pass", "mac=" + mac,
                         "token=" + token, "gateway=" + gateway, "timeout=" + timeout
                 );
             }
+
             authPopupPage.connect().load();
+
+            if(lastRun>0) {
+                final String refreshURI=authPopupPage.findUrl("ticket").substring(4);
+                refreshTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            new Page(refreshURI).connect().load();
+                            log.debug("login renewed");
+                        } catch (IOException e) {
+                            log.error("refreshTimer cant open refresh page, login fail to renew");
+                        }
+                    }
+                }, 5000);
+            }
+
             getParamsForPost(authPopupPage.toString());
+            log.info("login will be renewed");
         } catch(Exception e) {
             log.error("cant reauthentizate",e);
         }
         log.debug("renew end with mac:"+mac+",token:"+token+",gateway:"+gateway+",timeout:"+timeout);
+        lastRun =System.currentTimeMillis();
     }
 
     public void getParamsForPost(String source) {
@@ -117,6 +139,8 @@ public class Login  {
      * log out from FARO
      */
     public void logout() {
+        refreshTimer.cancel();
+        refreshTimer.purge();
         if(gateway == null) {
             log.info("cant logout, because no gateway available");
             return;
@@ -134,4 +158,6 @@ public class Login  {
     private boolean isFaroPage(Page page) {
         return page.findOnPage("aleph.mendelu.cz");
     }
+
+
 }

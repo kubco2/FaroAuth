@@ -1,6 +1,7 @@
 package sk.shifty;
 
 import javax.swing.*;
+import java.util.Locale;
 
 /**
  * User: shifty
@@ -19,6 +20,8 @@ public class main {
 
 
     public static void main(String[] args) {
+        Locale.setDefault(Locale.ENGLISH);
+
         boolean setup=false;
         for(String argument : args) {
             if(argument.startsWith("-u=")) {

@@ -18,7 +18,7 @@ public class PingService {
     private int MAC=2;
     private int OS;
 
-    private String url="4.2.2.2";
+    private String url="8.8.8.8";
     private int deadline =1; //seconds
 
     public PingService() {
@@ -35,15 +35,18 @@ public class PingService {
     }
     public PingService(int deadline) {
         this();
-        this.deadline = deadline;
+        setDeadline(deadline);
     }
 
     public PingService(String url) {
         this();
-        if(url == null || "".equals(url)) {
-            throw new IllegalArgumentException("url must be url, not empty");
-        }
-        this.url=url;
+        setUrl(url);
+    }
+
+    public PingService(int deadline, String url) {
+        this();
+        setDeadline(deadline);
+        setUrl(url);
     }
 
     public boolean isReachable() {
@@ -83,6 +86,20 @@ public class PingService {
     }
 
     public void setDeadline(int deadline) {
+        if(deadline <= 0) {
+            throw new IllegalArgumentException("deadline must be more than 0");
+        }
         this.deadline = deadline;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        if(url == null || "".equals(url)) {
+            throw new IllegalArgumentException("url must be URL, not empty");
+        }
+        this.url = url;
     }
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -25,10 +26,9 @@ public class FaroAuth implements Runnable {
     private boolean running;
     private int timeout=10;     // seconds
     private int syncTimeout=60; // seconds
-    private int renewTimeout=1; // number of cycles of main process
 
     public FaroAuth(String url, Auth auth) {
-        this.host = new PingService(url);
+        this.host = new PingService();
         this.login = new Login(url,auth);
         this.syncLimit = new SyncLimit(auth);
         log.info("idle");
@@ -48,24 +48,15 @@ public class FaroAuth implements Runnable {
     public void stop() {
         running=false;
         loginT.interrupt();
-        syncLimit.stop();
-        login.logout();
-        if(gui!=null) {
-            gui.setActivateButton(false);
-        }
     }
 
     @Override
     public void run() {
         log.info("starting");
-        int cycle=0;
         while (running) {
-            cycle++;
             if(host.isReachable()) {
                 setOnline(true);
-                if(cycle % renewTimeout == 0) {
-                    //login.renew();
-                }
+                login.renew();
             } else {
                 setOnline(false);
                 try {
@@ -88,8 +79,13 @@ public class FaroAuth implements Runnable {
                 log.debug("interrupting FaroAuth.");
             }
         }
+
         log.info("stopping");
-        stop();
+        syncLimit.stop();
+        login.logout();
+        if(gui!=null) {
+            gui.setActivateButton(false);
+        }
     }
 
     public boolean isAlive() {
@@ -97,13 +93,13 @@ public class FaroAuth implements Runnable {
     }
 
     public void setOnline(boolean online) {
-        log.info("online: "+online);
+        //log.info("online: "+online);
         if(gui != null) {
             gui.setStatus(online);
         }
     }
     public void setFreeLimit() {
-        log.info(syncLimit.getLimit() + " free");
+        //log.info(syncLimit.getLimit() + " free");
         if(gui != null) {
             gui.setFreeLimit(syncLimit.getLimit());
         }
@@ -122,7 +118,7 @@ public class FaroAuth implements Runnable {
 
         private Thread syncT;
         private Auth auth;
-        private Double limit;
+        private BigDecimal limit;
         private boolean running;
 
         public SyncLimit(Auth auth) {
@@ -133,29 +129,13 @@ public class FaroAuth implements Runnable {
         public void run() {
             log.info("starting");
 
-            Limit page = null;
-            try {
-                page = new Limit(auth);
-            } catch (Exception e) {
-                log.error("Limit cannot be created",e);
-                stop();
-                return;
-            }
-            DecimalFormat df1 = new DecimalFormat("#.##");
-            DecimalFormat df2 = new DecimalFormat("#,##");
+            Limit page = new Limit(auth);
+
             while(running) {
                 try{
-                    try {
-                        limit=Double.valueOf(df2.format(page.getFree()));
-                    } catch (NumberFormatException e) {
-                        try {
-                            limit=Double.valueOf(df1.format(page.getFree()));
-                        } catch (NumberFormatException nfe) {
-                            log.error("stopping can't determine decimal points",nfe,e);
-                            break;
-                        }
-                    }
+                    limit = page.getFree();
                 } catch (IOException e) {
+                    limit=null;
                     log.error("can't load site", e);
                 }
                 setFreeLimit();
@@ -185,7 +165,7 @@ public class FaroAuth implements Runnable {
             return syncT.isAlive();
         }
 
-        public Double getLimit() {
+        public BigDecimal getLimit() {
             return isAlive()?limit:null;
         }
     }

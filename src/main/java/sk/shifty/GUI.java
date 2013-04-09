@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -181,9 +182,9 @@ public class GUI extends JFrame implements ControlableGUI {
         this.online=online;
         updateBar();
     }
-    private Double freeLimit;
+    private BigDecimal freeLimit;
     @Override
-    public void setFreeLimit(Double free) {
+    public void setFreeLimit(BigDecimal free) {
         this.freeLimit=free;
         updateBar();
     }
@@ -202,7 +203,7 @@ public class GUI extends JFrame implements ControlableGUI {
         if (Desktop.isDesktopSupported()) {
             try {
                 Desktop.getDesktop().browse(uri);
-            } catch (IOException e) { /* TODO: error handling */ }
-        } else { /* TODO: error handling */ }
+            } catch (IOException e) {}
+        } else {}
     }
 }

@@ -22,6 +22,7 @@ public class Page {
     private URL url;
     private HttpURLConnection conn;
     private Auth basicAuth=null;
+    private String referrer=null;
 
     private boolean key=false;
     private String[] postParams=null;
@@ -39,6 +40,11 @@ public class Page {
         return this;
     }
 
+    public Page withReferrer(String ref) {
+        referrer=ref;
+        return this;
+    }
+
     public Page withPost(String ... params) throws UnsupportedEncodingException {
         postParams=params;
         return this;
@@ -52,6 +58,9 @@ public class Page {
         if(basicAuth != null) {
             conn.setRequestProperty("Authorization",basicAuth.get());
         }
+        if(referrer != null) {
+            conn.setRequestProperty("Referer",referrer);
+        }
         if(postParams != null) {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestMethod("POST");
@@ -61,6 +70,7 @@ public class Page {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "text/html; charset=utf-8");
         }
+        conn.connect();
         return this;
     }
 
@@ -95,8 +105,6 @@ public class Page {
         return m.find();
     }
 
-
-
     public String encodeParams(String[] params) throws UnsupportedEncodingException {
         String enc="UTF-8";
         String result="";
@@ -123,4 +131,5 @@ public class Page {
     public String toString() {
         return page;
     }
+
 }
