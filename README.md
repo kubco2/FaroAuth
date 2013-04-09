@@ -14,6 +14,13 @@ Co je FaroAuth?
 
 FaroAuth je aplikacia, ktora automatizuje prihlasenie do siete FARO.
 
+v1.7:
+- implementovane automaticke obnovovanie prihlasenia  
+
+v1.6:
+- implementovane korektne odhlasenie  
+- znizenie casoveho rozsahu vypadku pri znovuprihlaseni do FARO
+
 Preco vznikol FaroAuth?
 =======================
 
@@ -42,13 +49,6 @@ V pripade, ze chces program spustat po spusteni operacneho systemu, pridaj ho, a
 Pri pouzivani inej siete ako Faro(napriklad doma,v skole), program nie je nutne vypnut ani odhlasit. O to bude prijemnejsie, ked sa pripojite na FARO siet a ani nezaznamenate, ze sa treba prihlasovat.
 
 Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
-
-v1.7:
-- implementovane automaticke obnovovanie prihlasenia  
-
-v1.6:
-- implementovane korektne odhlasenie  
-- znizenie casoveho rozsahu vypadku pri znovuprihlaseni do FARO
 
 FAQ:
 ====
