@@ -27,7 +27,8 @@ Dovodov je viac, napriklad:
 - nie kazdy chce alebo moze povolit JavaScript, alebo vyskakovacie okna.
 - pri padnuti prehliadaca, je len otazka casu, kedy sa internet odpoji, bezny uzivatel nema co urobit.
 - ked uzivatel nechtiac zavrie vyskakovacie okno, plati predosly pripad a teda aj to, ze ked niekto nieco stahuje a odhlasi ho tak v horsom pripade par GB dat zbytocnych, pretoze sa stahovanie prerusi.
-- dufam, ze raz technici spristupnia aj inu moznost, ako takyto hrozny sposob prihlasenia k internetu. Sme na kolejich(intrakoch), nie v internetovej kaviarni. Priklady si mozu brat z mnoho inych skol.
+
+Dufam, ze raz technici spristupnia aj inu moznost, ako takyto hrozny sposob prihlasenia k internetu. Sme na kolejich(intrakoch), nie v internetovej kaviarni. Priklady si mozu brat z mnoho inych skol.
 
 Navod:
 ======
