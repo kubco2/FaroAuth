@@ -5,9 +5,9 @@ Tool for authentication to the Mendel University Faro network
 
 Download: http://goo.gl/HVmHG
 
-Mate problemy s prihlasovanim do siete Faro?
-Uz vas nebavi neustale prihlasovanie do Faro siete a otvorene "popup" okna v prehliadaci?
-Mam pre vas riesenie :-)
+Mas problemy s prihlasovanim do siete Faro?  
+Uz ta nebavi neustale prihlasovanie do Faro siete a otvorene "popup" okna v prehliadaci?  
+Mam pre teba riesenie :-)
 
 Co je FaroAuth?
 ===============
@@ -23,10 +23,10 @@ Dovodov je viac, napriklad:
 - poznam viac ludi, ktori sa stazuju, ze im prihlasenie do FARO v internetovom prehliadaci blbne.
 - nechce sa mi zaoberat prihlasovanim a odklikavanim aplikacnych chyb pri kazdom spusteni PC.
 - problemy s cache, pri neobnoveni prihlasenia, sa nechce nacitat ani pozadovana stranka ani FARO stranka. Pre niektorych nie je jednoduche restartovat prehliadac, alebo otvorit iny.
-- obcas sa stane, ze namiesto obnovenia prihlasenia sa obnovi stara stranka, tym padom po par minutach prihlasenie zanikne. Dane je to nezmysalnym urcenim casu, kedy sa maju akcie previest, obe su v rovnaky cas.
+- obcas sa stane, ze namiesto obnovenia prihlasenia(znovuodoslania udajov) sa obnovi stara stranka, tym padom po par minutach prihlasenie zanikne. Dane je to nezmyselnym urcenim casu, kedy sa maju akcie previest. Obe su v rovnaky cas.
 - nie kazdy chce alebo moze povolit JavaScript, alebo vyskakovacie okna.
 - pri padnuti prehliadaca, je len otazka casu, kedy sa internet odpoji, bezny uzivatel nema co urobit.
-- ked uzivatel nechtiac zavrie vyskakovacie okno, plati predosly pripad.
+- ked uzivatel nechtiac zavrie vyskakovacie okno, plati predosly pripad a teda aj to, ze ked niekto nieco stahuje a odhlasi ho tak v horsom pripade par GB dat zbytocnych, pretoze sa stahovanie prerusi.
 - dufam, ze raz technici spristupnia aj inu moznost, ako takyto hrozny sposob prihlasenia k internetu. Sme na kolejich(intrakoch), nie v internetovej kaviarni. Priklady si mozu brat z mnoho inych skol.
 
 Navod:
@@ -36,16 +36,18 @@ Spustit program.
 Zadat udaje k prihlaseniu(potvrdit save).  
 Kliknut Log in.  
 Vzhladom k tomu, ze aplikacia je spustena na pozadi, mozete okno s prihlasenim zavriet a otvorit si ho ked bude treba.
-V pripade, ze chcete aby Vas prihlasilo hned po otvoreni, zafajknite checkbox vedla Log in.  
-V pripade, ze chcete program spustat po spusteni operacneho systemu, pridajte ho, alebo jeho odkaz do priecinku Po spusteni.
+V pripade, ze chces aby ta prihlasilo hned po otvoreni, zafajkni checkbox vedla Log in.  
+V pripade, ze chces program spustat po spusteni operacneho systemu, pridaj ho, alebo jeho odkaz do priecinku Po spusteni.
 Pri pouzivani inej siete ako Faro(napriklad doma,v skole), program nie je nutne vypnut ani odhlasit. O to bude prijemnejsie, ked sa pripojite na FARO siet a ani nezaznamenate, ze sa treba prihlasovat.
 
 Aplikacia potrebuje JRE7, dostupne na adrese http://www.java.com/download/
 
 v1.7:
-- Implementovane automaticke obnovovanie prihlasenia
+- implementovane automaticke obnovovanie prihlasenia  
+
 v1.6:
-- Implementovane korektne odhlasenie.
+- implementovane korektne odhlasenie  
+- znizenie casoveho rozsahu vypadku pri znovuprihlaseni do FARO
 
 FAQ:
 ====
