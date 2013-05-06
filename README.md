@@ -60,7 +60,7 @@ Mozem byt automaticky prihlaseny po spusteni FaroAuth?
 > Ano, po zaskrtnuti policka "activation on start" budes automaticky prihlaseny pri kazdom zapnuti programu.
 
 Mozem FaroAuth spustat pri starte operacneho systemu(Windows,Linux,..)? Kde sa nachadza priecinok Po spusteni?
-> Ano, pre Windows staci dat aplikaciu, alebo jej odkaz do priecinku "Po spusteni" (Ponuka start > Vsetky programy > Pri spusteni), pre linux je mozne napriklad pridat prikaz "(java -jar cesta/k/suboru/FaroAuth.jar) &" do suboru ~/.bash_rc
+> Ano, pre Windows staci dat aplikaciu, alebo jej odkaz do priecinku "Po spusteni" (Ponuka start > Vsetky programy > Pri spusteni), pre linux je mozne napriklad pridat prikaz "(java -jar cesta/k/suboru/FaroAuth.jar) &" do settings>session and startup
 
 Ako docielim, aby som sa uz nemusel zaoberat strankami Faro v prehliadaci?
 > Stiahnes si FaroAuth, das ho pustit po spusteni operacneho systemu a zakliknes "activation on start", odteraz sa o prihlasenie vzdy postara aplikacia FaroAuth
