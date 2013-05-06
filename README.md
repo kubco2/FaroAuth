@@ -86,7 +86,7 @@ Aplikacia zmizla, alebo som ju zavrel pomocou X. Jak to, ze prihlasenie je nadal
 > Aplikacia bezi na pozadi a je ju mozne otvorit v "System tray"(pri hodinach medzi ikonkami pod ikonkou ziarovky)
 
 Preco tam je "free data" ?
-> Mozno o tom nevies, ale politika FARO siete dovoluje uzivatelom stiahnut maximalne 20GB za poslednych 7 dni. Prekrocenim limitu sa zablokuje pristup do siete.
+> Mozno o tom nevies, ale politika FARO siete dovoluje uzivatelom stiahnut maximalne 20GB za poslednych 7 dni. Prekrocenim limitu sa zablokuje pristup do siete. Pozor aplikácia zobrazuje počet volných dat, ktoré boli pred aktuálnym prihlásením, je to dané spôsobom ako funguje FARO sieť. Pre aktuálne hodnoty je potrebné sa odhlásiť a prihlásiť do Faro siete.
 
 Dal som "Log out" ale neodhlasilo ma.
 > Zrejme si sa neprihlasil pomocou FaroAuth, a teda aplikacia nema dostupne data k odhlaseniu. Aplikacia ich ziska az, ked prevedie prve prihlasenie od spustenia aplikacie.
@@ -95,3 +95,4 @@ Upozornenie:
 ============
 
 Za skody sposobene touto aplikaciou nenesiem ziadnu zodpovednost. Za odcuzenie prihlasovacich udajov tiez nenesiem ziadnu zodpovednost. Preto v pripade pouzivania tejto aplikacie prosim pustajte k vasmu PC iba doveryhodne osoby(to by malo platit aj pri ulozenych heslach v internetovych prehliadacoch).
+Pozor aplikácia zobrazuje počet volných dat, ktoré boli pred aktuálnym prihlásením, je to dané spôsobom ako funguje FARO sieť. Pre aktuálne hodnoty je potrebné sa odhlásiť a prihlásiť do Faro siete.
